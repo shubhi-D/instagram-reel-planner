@@ -10,6 +10,8 @@ interface ReelIdea {
   hashtags: string[];
 }
 
+const API_BASE = "https://instagram-reel-planner.onrender.com";
+
 export default function Home() {
   const [niche, setNiche] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +23,7 @@ export default function Home() {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch("http://localhost:8000/api/generate-ideas", {
+      const response = await fetch(`${API_BASE}/api/generate-ideas`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -54,18 +56,21 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
+        
+        {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900">
             ReelCraft by Shubhi
           </h1>
-          <a 
-            href="/saved-ideas" 
+          <a
+            href="/saved-ideas"
             className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors"
           >
             View Saved Ideas
           </a>
         </div>
 
+        {/* Form */}
         <form onSubmit={handleSubmit} className="max-w-md mx-auto mb-12">
           <div className="flex gap-2">
             <input
@@ -79,21 +84,24 @@ export default function Home() {
             <button
               type="submit"
               disabled={isLoading}
-              className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+              className="px-6 py-2 bg-indigo-600 text-white font-medium rounded-md hover:bg-indigo-700 disabled:opacity-50"
             >
               {isLoading ? "Generating..." : "Generate Ideas"}
             </button>
           </div>
           {error && (
-            <p className="mt-2 text-sm text-red-600 text-left">{error}</p>
+            <p className="mt-2 text-sm text-red-600">{error}</p>
           )}
         </form>
 
+        {/* Loading Spinner */}
         {isLoading ? (
           <div className="flex justify-center items-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
           </div>
         ) : ideas.length > 0 ? (
+
+          /* Ideas Grid */
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {ideas.map((idea, index) => (
               <div
@@ -104,6 +112,7 @@ export default function Home() {
                   {idea.idea}
                 </h3>
 
+                {/* Hooks */}
                 <div className="mb-3">
                   <h4 className="text-sm font-medium text-gray-700 mb-1">
                     Hooks:
@@ -112,7 +121,7 @@ export default function Home() {
                     {idea.hooks.map((hook, i) => (
                       <span
                         key={i}
-                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
+                        className="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-indigo-100 text-indigo-800 rounded-full"
                       >
                         {hook}
                       </span>
@@ -120,6 +129,7 @@ export default function Home() {
                   </div>
                 </div>
 
+                {/* Captions */}
                 <div className="mb-3">
                   <h4 className="text-sm font-medium text-gray-700 mb-1">
                     Short Caption:
@@ -134,6 +144,7 @@ export default function Home() {
                   <p className="text-sm text-gray-600">{idea.caption_long}</p>
                 </div>
 
+                {/* Hashtags */}
                 <div>
                   <h4 className="text-sm font-medium text-gray-700 mb-1">
                     Hashtags:
@@ -143,26 +154,24 @@ export default function Home() {
                   </p>
                 </div>
 
+                {/* Save Button */}
                 <button
                   onClick={async () => {
                     try {
-                      const res = await fetch(
-                        "http://localhost:8000/api/save-idea",
-                        {
-                          method: "POST",
-                          headers: {
-                            "Content-Type": "application/json",
-                          },
-                          body: JSON.stringify({
-                            idea: idea.idea,
-                            hooks: idea.hooks,
-                            caption_short: idea.caption_short,
-                            caption_long: idea.caption_long,
-                            hashtags: idea.hashtags,
-                            niche: niche,
-                          }),
-                        }
-                      );
+                      const res = await fetch(`${API_BASE}/api/save-idea`, {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          idea: idea.idea,
+                          hooks: idea.hooks,
+                          caption_short: idea.caption_short,
+                          caption_long: idea.caption_long,
+                          hashtags: idea.hashtags,
+                          niche,
+                        }),
+                      });
 
                       if (!res.ok) {
                         throw new Error("Failed to save idea");
@@ -181,6 +190,8 @@ export default function Home() {
             ))}
           </div>
         ) : (
+
+          /* Empty State */
           <div className="text-center py-12">
             <p className="text-gray-500">
               Enter a niche and click "Generate Ideas" to get started

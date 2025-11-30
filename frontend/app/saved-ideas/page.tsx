@@ -16,6 +16,8 @@ interface SavedIdea {
   created_at: string;
 }
 
+const API_BASE = "https://instagram-reel-planner.onrender.com";
+
 export default function SavedIdeasPage() {
   const [ideas, setIdeas] = useState<SavedIdea[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,10 +26,14 @@ export default function SavedIdeasPage() {
 
   const fetchSavedIdeas = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/get-saved-ideas");
+      const response = await fetch(`${API_BASE}/api/get-saved-ideas`, {
+        cache: "no-store",
+      });
+
       if (!response.ok) {
         throw new Error("Failed to fetch saved ideas");
       }
+
       const data = await response.json();
       setIdeas(data);
     } catch (err) {
@@ -42,33 +48,27 @@ export default function SavedIdeasPage() {
   }, []);
 
   const handleDelete = async (id: string) => {
-    if (!id) {
-      console.error("No ID provided for deletion");
-      return;
-    }
+    if (!id) return;
 
     const confirmDelete = window.confirm("Are you sure you want to delete this idea?");
     if (!confirmDelete) return;
 
     setIsDeleting(id);
+
     try {
-      const response = await fetch(`http://localhost:8000/api/delete-idea/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const response = await fetch(`${API_BASE}/api/delete-idea/${id}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
       });
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.detail || 'Failed to delete idea');
+        throw new Error(error.detail || "Failed to delete idea");
       }
 
-      // Remove the deleted idea from the UI
-      setIdeas(prev => prev.filter(idea => idea.id !== id));
+      setIdeas((prev) => prev.filter((idea) => idea.id !== id));
     } catch (error) {
-      console.error('Error deleting idea:', error);
-      alert(error instanceof Error ? error.message : 'Failed to delete idea');
+      alert(error instanceof Error ? error.message : "Failed to delete idea");
     } finally {
       setIsDeleting(null);
     }
@@ -102,8 +102,8 @@ export default function SavedIdeasPage() {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <Link 
-            href="/dashboard" 
+          <Link
+            href="/dashboard"
             className="flex items-center text-indigo-600 hover:text-indigo-800"
           >
             <FiArrowLeft className="mr-2" />
@@ -124,7 +124,6 @@ export default function SavedIdeasPage() {
                 key={idea.id}
                 className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow relative"
               >
-                {/* Delete Button */}
                 <button
                   onClick={() => handleDelete(idea.id)}
                   disabled={isDeleting === idea.id}
@@ -138,7 +137,7 @@ export default function SavedIdeasPage() {
                   )}
                 </button>
 
-                <div className="pr-6"> {/* Add padding to prevent text overlap with delete button */}
+                <div className="pr-6">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-lg font-semibold text-gray-900">{idea.idea}</h3>
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
@@ -167,7 +166,9 @@ export default function SavedIdeasPage() {
 
                   <div className="mb-3">
                     <h4 className="text-sm font-medium text-gray-700 mb-1">Long Caption:</h4>
-                    <p className="text-sm text-gray-600 whitespace-pre-line">{idea.caption_long}</p>
+                    <p className="text-sm text-gray-600 whitespace-pre-line">
+                      {idea.caption_long}
+                    </p>
                   </div>
 
                   <div className="mb-4">
@@ -180,7 +181,9 @@ export default function SavedIdeasPage() {
                   <div className="flex justify-between items-center text-xs text-gray-500 pt-3 border-t border-gray-100">
                     <span className="flex items-center">
                       <FiClock className="mr-1 h-3.5 w-3.5" />
-                      {formatDistanceToNow(new Date(idea.created_at), { addSuffix: true })}
+                      {formatDistanceToNow(new Date(idea.created_at), {
+                        addSuffix: true,
+                      })}
                     </span>
                   </div>
                 </div>
