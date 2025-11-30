@@ -1,10 +1,3 @@
-Absolutely — here is a **more polished, concise, professional, industry-standard README**.
-No fluff. Clear sections. Clean hierarchy. Reads like something you'd see on a serious open-source repo or a portfolio project.
-
-You can directly paste this into GitHub.
-
----
-
 # **ReelCraft by Shubhi**
 
 ### *AI-Powered Instagram Reel Ideation Assistant*
@@ -14,9 +7,9 @@ Built with **Next.js**, **FastAPI**, **Supabase**, and **Google Gemini**, the pr
 
 ---
 
-## 📽 **Demo (Coming Soon)**
+## 📽 **Demo Video **
 
-> *(Add a GIF, Loom link, or short demo clip here)*
+> https://github.com/shubhi-D/instagram-reel-planner/raw/a00d434411f2feb6951f449176c7f6ba2046d622/assets/demo.mp4
 
 ---
 
@@ -197,11 +190,6 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 * Supabase Cloud
 
 ---
-
-## 🎥 Demo Video
-
-https://github.com/shubhi-D/instagram-reel-planner/raw/a00d434411f2feb6951f449176c7f6ba2046d622/assets/demo.mp4
-
 
 ## **Contributing**
 
