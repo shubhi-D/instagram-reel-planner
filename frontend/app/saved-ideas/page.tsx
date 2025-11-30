@@ -109,7 +109,7 @@ export default function SavedIdeasPage() {
             <FiArrowLeft className="mr-2" />
             Back to Generator
           </Link>
-          <h1 className="text-3xl font-bold text-gray-900">Your Saved Ideas</h1>
+          <h1 className="text-3xl font-bold text-gray-900">ReelCraft — Your Saved Ideas</h1>
           <div></div>
         </div>
 

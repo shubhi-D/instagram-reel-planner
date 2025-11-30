@@ -5,7 +5,7 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Instagram Reel Planner',
+  title: 'ReelCraft by Shubhi',
   description: 'Generate and save Instagram Reel ideas',
 }
 
