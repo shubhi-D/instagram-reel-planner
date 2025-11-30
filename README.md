@@ -198,6 +198,11 @@ NEXT_PUBLIC_API_URL=http://localhost:8000
 
 ---
 
+## 🎥 Demo Video
+
+https://github.com/shubhi-D/instagram-reel-planner/raw/a00d434411f2feb6951f449176c7f6ba2046d622/assets/demo.mp4
+
+
 ## **Contributing**
 
 1. Create a feature branch
